@@ -162,15 +162,9 @@ public abstract class Document {
 	{
 	    // TODO: Implement this method in week 1
 		double flesch = 0;
-		String text = this.getText();
-		List<String> words = this.getTokens("[a-zA-Z]+");
-		List<String> sentences = this.getTokens("[^.!?+]+");
-		int numberWords = words.size();
-		int numberSentences = sentences.size();
-		int syllables = 0;
-		for(String word : words){
-			syllables+=Document.countSyllables(word);
-		}
+		int numberWords = this.getNumWords();
+		int numberSentences = this.getNumSentences();
+		int syllables = this.getNumSyllables();
 		double part1 = ((double)numberWords/(double)numberSentences);
 	    double part2 = ((double)syllables/(double)numberWords);
 	    flesch = 206.835 - (1.015*part1) - (84.6*part2);
