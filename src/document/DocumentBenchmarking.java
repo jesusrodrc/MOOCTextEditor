@@ -17,18 +17,18 @@ public class DocumentBenchmarking {
 
 	    // Run each test more than once to get bigger numbers and less noise.
 	    // You can try playing around with this number.
-	    int trials = 100;
+	    int trials = 10;
 
 	    // The text to test on
 	    String textfile = "data/warAndPeace.txt";
 		
 	    // The amount of characters to increment each step
 	    // You can play around with this
-		int increment = 20000;
+		int increment = 8000;
 
 		// The number of steps to run.  
 		// You can play around with this.
-		int numSteps = 20;
+		int numSteps = 100;
 		
 		// THe number of characters to start with. 
 		// You can play around with this.
@@ -61,18 +61,31 @@ public class DocumentBenchmarking {
 			 */  
 			System.out.print(numToCheck + "\t");
 			String testtext = getStringFromFile(textfile, numToCheck);
-			long startSimple = System.currentTimeMillis();
-			BasicDocument testDocument = new BasicDocument(testtext);
-			double fleschsimple = testDocument.getFleschScore();
-			long endSimple = System.currentTimeMillis();
-			long timeSimple = endSimple - startSimple;
-			System.out.print(timeSimple + "\t");
-			long startEfficient = System.currentTimeMillis();
-			EfficientDocument testEfficientDocument = new EfficientDocument(testtext); 
-			double fleschefficient = testEfficientDocument.getFleschScore();
-			long endEfficient = System.currentTimeMillis();
-			long timeEfficient = endEfficient - startEfficient;
-			System.out.print(timeEfficient + "\n");
+			int i =0;
+			long startSimple, endSimple, timeSimple, startEfficient, endEfficient, timeEfficient, totalTimeSimple, totalTimeEfficient;
+			double fleschsimple, fleschefficient;
+			totalTimeEfficient = 0;
+			totalTimeSimple = 0;
+			for(i=0;i<trials;i++){
+				startSimple = System.currentTimeMillis();
+				BasicDocument testDocument = new BasicDocument(testtext);
+				fleschsimple = testDocument.getFleschScore();
+				endSimple = System.currentTimeMillis();
+				timeSimple = endSimple - startSimple;
+				totalTimeSimple += timeSimple;
+			}
+			totalTimeSimple = totalTimeSimple/trials;
+			System.out.print(totalTimeSimple + "\t");
+			for(i=0;i<trials;i++){
+				startEfficient = System.currentTimeMillis();
+				EfficientDocument testEfficientDocument = new EfficientDocument(testtext);
+				fleschefficient = testEfficientDocument.getFleschScore();
+				endEfficient = System.currentTimeMillis();
+				timeEfficient = endEfficient - startEfficient;
+				totalTimeEfficient += timeEfficient;
+			}
+			totalTimeEfficient = totalTimeEfficient/trials;
+			System.out.print(totalTimeEfficient + "\n");
 			 
 		}
 	
