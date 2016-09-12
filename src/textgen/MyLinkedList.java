@@ -17,6 +17,11 @@ public class MyLinkedList<E> extends AbstractList<E> {
 	/** Create a new empty LinkedList */
 	public MyLinkedList() {
 		// TODO: Implement this method
+		this.head = new LLNode<E>(null);
+		this.tail = new LLNode<E>(null);
+		this.head.next = this.tail;
+		this.tail.prev = this.head;
+		this.size = 0;
 	}
 
 	/**
@@ -25,16 +30,43 @@ public class MyLinkedList<E> extends AbstractList<E> {
 	 */
 	public boolean add(E element ) 
 	{
-		// TODO: Implement this method
-		return false;
+		try{
+			LLNode<E> nodo = new LLNode<E>(element);
+			if(this.head.data == null){
+				nodo.prev = nodo;
+				this.head = nodo;
+				this.tail = nodo;			
+			}else{
+				nodo.prev = this.tail;
+				this.tail.next = nodo;
+				this.tail=nodo;
+			}
+			return true;
+		}catch(Exception e){
+			System.out.println("Failiure inserting");
+			throw e;
+		}
 	}
 
 	/** Get the element at position index 
 	 * @throws IndexOutOfBoundsException if the index is out of bounds. */
 	public E get(int index) 
 	{
-		// TODO: Implement this method.
-		return null;
+        int i = 0;
+        LLNode<E> current = this.head;
+        E result = null;
+        if(index<this.size){
+        	for(i=0;i<=index;i++){
+        		if(i==index){
+        			result = current.data;
+        		}else{
+        			current = current.next;
+        		}
+        	}
+        }else{
+        	throw new IndexOutOfBoundsException();
+        }
+        return result;
 	}
 
 	/**
