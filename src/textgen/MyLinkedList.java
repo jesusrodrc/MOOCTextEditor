@@ -41,6 +41,7 @@ public class MyLinkedList<E> extends AbstractList<E> {
 				this.tail.next = nodo;
 				this.tail=nodo;
 			}
+			this.size += 1;
 			return true;
 		}catch(Exception e){
 			System.out.println("Failiure inserting");
@@ -55,7 +56,7 @@ public class MyLinkedList<E> extends AbstractList<E> {
         int i = 0;
         LLNode<E> current = this.head;
         E result = null;
-        if(index<this.size){
+        if(index<this.size && !(index<0)){
         	for(i=0;i<=index;i++){
         		if(i==index){
         			result = current.data;

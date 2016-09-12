@@ -124,6 +124,13 @@ public class MyLinkedListTester {
 	public void testAddEnd()
 	{
         // TODO: implement this test
+		int i;
+		for(i=0;i<100;i++){
+			list1.add(i);
+			assertEquals("Add end", i, (int)list1.tail.data);
+			assertEquals("Add beginning ", 65, (int)list1.get(0));
+		}
+		
 		
 	}
 
