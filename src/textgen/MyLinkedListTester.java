@@ -156,14 +156,14 @@ public class MyLinkedListTester {
 	@Test
 	public void testSize()
 	{
-		assertEquals("EmptyList size test", 0, emptyList.size);
-		assertEquals("LongList size test", LONG_LIST_LENGTH, longerList.size);
+		assertEquals("EmptyList size test", 0, emptyList.size());
+		assertEquals("LongList size test", LONG_LIST_LENGTH, longerList.size());
 		int i;
-		int size = longerList.size;
+		int size = longerList.size();
 		for(i=0;i<100;i++){
 			longerList.add(3, i);
 			size += 1;
-			assertEquals("MiddleAddSizeTest", size, longerList.size);
+			assertEquals("MiddleAddSizeTest", size, longerList.size());
 		};
 	}
 
@@ -196,8 +196,28 @@ public class MyLinkedListTester {
 	@Test
 	public void testSet()
 	{
-	    // TODO: implement this test
-	    
+		int i = 656;
+	    int a = list1.set(0, i);
+	    assertEquals("Set: check a is correct ", 65, a);
+		assertEquals("Set: check element is correct ", (Integer)i, list1.get(0));
+		a = list1.set(2, i);
+	    assertEquals("Set: check a is correct ", 42, a);
+		assertEquals("Set: check element is correct ", (Integer)i, list1.get(2));
+		a = list1.set(1, i);
+	    assertEquals("Set: check a is correct ", 21, a);
+		assertEquals("Set: check element is correct ", (Integer)i, list1.get(1));
+		try{
+			a = list1.set(6, i);
+			fail("Check upper limit");
+		}catch(IndexOutOfBoundsException e){
+			
+		}
+		try{
+			a = list1.set(-1, i);
+			fail("Check lower limit");
+		}catch(IndexOutOfBoundsException e){
+			
+		}
 	}
 	
 	

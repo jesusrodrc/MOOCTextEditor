@@ -126,7 +126,39 @@ public class MyLinkedList<E> extends AbstractList<E> {
 	 */
 	public E remove(int index) 
 	{
-		return null;
+		int i = 0;
+        LLNode<E> current = this.head;
+        LLNode<E> result=null;
+		if(index<(this.size - 1) && !(index<0)){
+			 if(index==0){
+				 result = current;
+				 this.head = current.next;
+				 this.head.prev = null;
+				 this.size -= 1;
+			}else{
+				for(i=0;i<=index;i++){
+	        		if(i==(index)){
+	        			//operate
+	        			result = current;
+	        			current.prev.next = current.next;
+	        			current.next.prev = current.prev;
+	        			this.size -=1; 
+	        			break;
+	        		}else{
+	        			current = current.next;
+	        		}
+	        	}
+			}
+		}else if(index==(this.size - 1) && !(index<0)){
+			result = this.tail;
+			this.tail = this.tail.prev;
+			this.tail.next = null;
+			this.size -=1;
+		}else
+		{
+			throw new IndexOutOfBoundsException();
+		}
+		return result.data;
 	}
 
 	/**
@@ -138,7 +170,31 @@ public class MyLinkedList<E> extends AbstractList<E> {
 	 */
 	public E set(int index, E element) 
 	{
-		return null;
+		int i = 0;
+        LLNode<E> current = this.head;
+        E result=null;
+		if((index<this.size) && !(index<0)){
+			 if(index==0){
+				 result = current.data;
+				 this.head.data = element;
+			}else{
+				for(i=0;i<=index;i++){
+	        		if(i==(index)){
+	        			//operate
+	        			result = current.data;
+	        			current.data = element;
+	        			break;
+	        		}else{
+	        			current = current.next;
+	        		}
+	        	}
+			}
+		}
+		else
+		{
+			throw new IndexOutOfBoundsException();
+		}
+		return result;
 	}   
 }
 
