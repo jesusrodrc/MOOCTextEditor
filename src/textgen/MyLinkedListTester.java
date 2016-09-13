@@ -113,8 +113,26 @@ public class MyLinkedListTester {
 		assertEquals("Remove: check a is correct ", 65, a);
 		assertEquals("Remove: check element 0 is correct ", (Integer)21, list1.get(0));
 		assertEquals("Remove: check size is correct ", 2, list1.size());
-		
-		// TODO: Add more tests here
+		try{
+			a = emptyList.remove(0);
+			fail("Check out of bounds emptylist");
+		}catch(IndexOutOfBoundsException e){
+			//fine
+		}
+		try{
+			a = list1.remove(10);
+			fail("Check out of bounds longlist");
+		}catch(IndexOutOfBoundsException e){
+			//fine
+		}
+		a = longerList.remove(1);
+		assertEquals("Remove middle: check a is correct ", 1, a);
+		assertEquals("Remove middle: check element 0 is correct ", (Integer)0, longerList.get(0));
+		assertEquals("Remove middle: check size is correct ", 9, longerList.size());
+		a = longerList.remove(8);
+		assertEquals("Remove middle: check a is correct ", 9, a);
+		assertEquals("Remove middle: check element 0 is correct ", (Integer)8, longerList.get(7));
+		assertEquals("Remove middle: check size is correct ", 8, longerList.size());
 	}
 	
 	/** Test adding an element into the end of the list, specifically
@@ -123,7 +141,6 @@ public class MyLinkedListTester {
 	@Test
 	public void testAddEnd()
 	{
-        // TODO: implement this test
 		int i;
 		for(i=0;i<100;i++){
 			list1.add(i);
@@ -139,7 +156,15 @@ public class MyLinkedListTester {
 	@Test
 	public void testSize()
 	{
-		// TODO: implement this test
+		assertEquals("EmptyList size test", 0, emptyList.size);
+		assertEquals("LongList size test", LONG_LIST_LENGTH, longerList.size);
+		int i;
+		int size = longerList.size;
+		for(i=0;i<100;i++){
+			longerList.add(3, i);
+			size += 1;
+			assertEquals("MiddleAddSizeTest", size, longerList.size);
+		};
 	}
 
 	
@@ -151,8 +176,20 @@ public class MyLinkedListTester {
 	@Test
 	public void testAddAtIndex()
 	{
-        // TODO: implement this test
-		
+        String s;
+        s = "C";
+        shortList.add(1, s);
+        assertEquals("AddAtIndex center insertion", "C", shortList.get(1));
+        assertEquals("AddAtIndex center previous", "A", shortList.get(0));
+        assertEquals("AddAtIndex center next", "B", shortList.get(2));
+        s="D";
+        shortList.add(3,s);
+        assertEquals("AddAtIndex center insertion", "D", shortList.get(3));
+        assertEquals("AddAtIndex center previous", "B", shortList.get(2));
+        s="E";
+        shortList.add(0,s);
+        assertEquals("AddAtIndex center insertion", "E", shortList.get(0));
+        assertEquals("AddAtIndex center next", "A", shortList.get(1));		
 	}
 	
 	/** Test setting an element in the list */

@@ -77,15 +77,45 @@ public class MyLinkedList<E> extends AbstractList<E> {
 	 */
 	public void add(int index, E element ) 
 	{
-		// TODO: Implement this method
+		int i = 0;
+        LLNode<E> current = this.head;
+        LLNode<E> insert = new LLNode<E>(element);
+        LLNode<E> displaced;
+		if(index<this.size && !(index<0)){
+			 if(index==0){
+				insert.next = current;
+				current.prev = insert;
+				this.head = insert;
+				this.size +=1; 
+			}else{
+				for(i=0;i<=index;i++){
+	        		if(i==(index-1)){
+	        			//operate
+	        			displaced = current.next;
+	        			displaced.prev = insert;
+	        			insert.next = displaced;
+	        			insert.prev = current;
+	        			current.next = insert;
+	        			this.size +=1; 
+	        			break;
+	        		}else{
+	        			current = current.next;
+	        		}
+	        	}
+			}
+		}else if(index==this.size && !(index<0)){
+			add(element);
+		}else
+		{
+			throw new IndexOutOfBoundsException();
+		}
 	}
 
 
 	/** Return the size of the list */
 	public int size() 
 	{
-		// TODO: Implement this method
-		return -1;
+		return this.size;
 	}
 
 	/** Remove a node at the specified index and return its data element.
@@ -96,7 +126,6 @@ public class MyLinkedList<E> extends AbstractList<E> {
 	 */
 	public E remove(int index) 
 	{
-		// TODO: Implement this method
 		return null;
 	}
 
@@ -109,7 +138,6 @@ public class MyLinkedList<E> extends AbstractList<E> {
 	 */
 	public E set(int index, E element) 
 	{
-		// TODO: Implement this method
 		return null;
 	}   
 }
