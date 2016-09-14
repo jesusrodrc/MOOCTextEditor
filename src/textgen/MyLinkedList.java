@@ -30,6 +30,9 @@ public class MyLinkedList<E> extends AbstractList<E> {
 	 */
 	public boolean add(E element ) 
 	{
+		if(element == null){
+        	throw new NullPointerException();
+        }
 		try{
 			LLNode<E> nodo = new LLNode<E>(element);
 			if(this.head.data == null){
@@ -79,6 +82,9 @@ public class MyLinkedList<E> extends AbstractList<E> {
 	{
 		int i = 0;
         LLNode<E> current = this.head;
+        if(element == null){
+        	throw new NullPointerException();
+        }
         LLNode<E> insert = new LLNode<E>(element);
         LLNode<E> displaced;
 		if(index<this.size && !(index<0)){
@@ -172,6 +178,9 @@ public class MyLinkedList<E> extends AbstractList<E> {
 	{
 		int i = 0;
         LLNode<E> current = this.head;
+        if(element == null){
+        	throw new NullPointerException();
+        }
         E result=null;
 		if((index<this.size) && !(index<0)){
 			 if(index==0){

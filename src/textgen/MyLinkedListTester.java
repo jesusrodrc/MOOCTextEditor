@@ -120,6 +120,12 @@ public class MyLinkedListTester {
 			//fine
 		}
 		try{
+			a = emptyList.remove(-1);
+			fail("Check out of bounds emptylist");
+		}catch(IndexOutOfBoundsException e){
+			//fine
+		}
+		try{
 			a = list1.remove(10);
 			fail("Check out of bounds longlist");
 		}catch(IndexOutOfBoundsException e){
@@ -142,12 +148,13 @@ public class MyLinkedListTester {
 	public void testAddEnd()
 	{
 		int i;
+		int index = list1.size() -1;
 		for(i=0;i<100;i++){
 			list1.add(i);
-			assertEquals("Add end", i, (int)list1.tail.data);
+			index += 1;
+			assertEquals("Add end", i, (int)list1.get(index));
 			assertEquals("Add beginning ", 65, (int)list1.get(0));
 		}
-		
 		
 	}
 
@@ -190,6 +197,25 @@ public class MyLinkedListTester {
         shortList.add(0,s);
         assertEquals("AddAtIndex center insertion", "E", shortList.get(0));
         assertEquals("AddAtIndex center next", "A", shortList.get(1));		
+        try{
+        	shortList.add(-1,s);
+        	fail("added in negative index");
+        }catch(IndexOutOfBoundsException e){
+        	
+        }
+        try{
+        	shortList.add(100,s);
+        	fail("added in too high index");
+        }catch(IndexOutOfBoundsException e){
+        	
+        }
+        s=null;
+        try{
+        	shortList.add(2,s);
+        	fail("added null");
+        }catch(NullPointerException e){
+        	
+        }
 	}
 	
 	/** Test setting an element in the list */
@@ -216,6 +242,13 @@ public class MyLinkedListTester {
 			a = list1.set(-1, i);
 			fail("Check lower limit");
 		}catch(IndexOutOfBoundsException e){
+			
+		}
+		String s = null;
+		try{
+			String z = shortList.set(1, s);
+			fail("Check null");
+		}catch(NullPointerException e){
 			
 		}
 	}
