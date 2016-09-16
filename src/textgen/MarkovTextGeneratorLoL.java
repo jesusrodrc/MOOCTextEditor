@@ -1,9 +1,12 @@
 package textgen;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Random;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /** 
  * An implementation of the MTG interface that uses a list of lists.
@@ -33,6 +36,34 @@ public class MarkovTextGeneratorLoL implements MarkovTextGenerator {
 	public void train(String sourceText)
 	{
 		// TODO: Implement this method
+		// First, break into words, or else this is not going to be manageable
+		ArrayList<String> words = new ArrayList<String>();
+		Pattern tokSplitter = Pattern.compile("[a-zA-Z]+");
+		Matcher m = tokSplitter.matcher(sourceText);			
+		while (m.find()) {
+			words.add(m.group());
+		}
+		if(words.size()>0){
+			starter = words.remove(0);
+			ListNode prevWord = new ListNode(starter);
+			wordList.add(prevWord);
+			Boolean inList = false;
+			for(String w:words){
+				prevWord.addNextWord(w);
+				inList=false;
+				for(ListNode node : wordList){
+					if(node.getWord().equalsIgnoreCase(w)){
+						prevWord = node;
+						inList=true;
+					}
+				}
+				if(!inList){
+					prevWord = new ListNode(w);
+					wordList.add(prevWord);
+				}
+			}
+			prevWord.addNextWord(starter);
+		}
 	}
 	
 	/** 
@@ -41,7 +72,36 @@ public class MarkovTextGeneratorLoL implements MarkovTextGenerator {
 	@Override
 	public String generateText(int numWords) {
 	    // TODO: Implement this method
-		return null;
+		/*set "currWord" to be the starter word
+		set "output" to be ""
+		add "currWord" to output
+		while you need more words
+		   find the "node" corresponding to "currWord" in the list
+		   select a random word "w" from the "wordList" for "node"
+		   add "w" to the "output"
+		   set "currWord" to be "w" 
+		   increment number of words added to the list*/
+		String output = "";
+		if(wordList.size()>0 && numWords>0){
+			ListNode currWord = wordList.get(0);
+			String nextWord = "";
+			int addedWords = 0;
+			Random generator = new Random();
+			output = currWord.getWord();
+			addedWords += 1;
+			while(addedWords<numWords){
+				nextWord = currWord.getRandomNextWord(generator);
+				for(ListNode node : wordList){
+					if(node.getWord().equalsIgnoreCase(nextWord)){
+						currWord = node;
+						break;
+					}
+				}
+				output = output + " " + currWord.getWord();
+				addedWords +=1;
+			}
+		}
+		return output;
 	}
 	
 	
@@ -61,6 +121,8 @@ public class MarkovTextGeneratorLoL implements MarkovTextGenerator {
 	@Override
 	public void retrain(String sourceText)
 	{
+		wordList = new LinkedList<ListNode>();
+		train(sourceText);
 		// TODO: Implement this method.
 	}
 	
@@ -110,6 +172,8 @@ public class MarkovTextGeneratorLoL implements MarkovTextGenerator {
 		System.out.println(gen);
 		System.out.println(gen.generateText(20));
 	}
+	
+	
 
 }
 
@@ -141,10 +205,11 @@ class ListNode
 	
 	public String getRandomNextWord(Random generator)
 	{
-		// TODO: Implement this method
-	    // The random number generator should be passed from 
-	    // the MarkovTextGeneratorLoL class
-	    return null;
+		int index = 0;
+		if(nextWords.size()>1){
+			index = generator.nextInt((nextWords.size()-1));
+		}
+	    return nextWords.get(index);
 	}
 
 	public String toString()
@@ -156,6 +221,7 @@ class ListNode
 		toReturn += "\n";
 		return toReturn;
 	}
+	
 	
 }
 
